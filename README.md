@@ -8,6 +8,7 @@ Simple Java CLI tool to organize files by extension.
 * Creates folders if they do not exist
 * Separates files by category
 * Uses Java NIO API (`java.nio.file`)
+* Unit tests with JUnit
 
 ## Current Categories
 
@@ -109,3 +110,18 @@ Downloads/
 ├── zip/
 │   └── archive.zip
 ```
+
+## Running Tests
+
+Run all tests with Maven:
+
+```bash
+mvn test
+```
+
+Example output:
+
+```txt
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+```
+
