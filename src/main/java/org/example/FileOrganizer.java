@@ -9,6 +9,10 @@ import static org.example.FileCategoryENUM.*;
 
 public class FileOrganizer {
     private final boolean dryRun;
+    private int movedCount;
+    private int simulatedCount;
+    private int errorCount;
+
     public FileOrganizer(boolean dryRun){
         this.dryRun = dryRun;
     }
@@ -26,13 +30,16 @@ public class FileOrganizer {
             Path targetFolder = file.getParent().resolve(category.getFolderName());
             Path targetFile = resolveDuplicate(targetFolder.resolve(file.getFileName()));
             if(dryRun){
+                simulatedCount++;
                 System.out.println("[DRY RUN] " + file.getFileName() + " -> " + category.getFolderName());
             } else {
                 Files.createDirectories(targetFolder);
                 Files.move(file, targetFile);
+                movedCount++;
                 System.out.println("[OK] " + file.getFileName() + " -> " + category.getFolderName());
             }
         } catch (IOException e){
+            errorCount++;
             System.out.println("[ERROR] " + file.getFileName());
         }
     }
@@ -53,6 +60,7 @@ public class FileOrganizer {
         } catch (IOException e){
             System.out.println("Error: " + e.getMessage());
         }
+        printSummary();
     }
 
     private Path resolveDuplicate(Path targetFile){
@@ -76,5 +84,14 @@ public class FileOrganizer {
             counter++;
         } while(Files.exists(newTarget));
         return newTarget;
+    }
+
+    private void printSummary(){
+        System.out.println();
+        System.out.println("Summary:");
+        System.out.println("Moved: " + movedCount);
+        System.out.println("Simulated: " + simulatedCount);
+        System.out.println("Errors: " + errorCount);
+        System.out.println("Dry run: " + dryRun);
     }
 }
