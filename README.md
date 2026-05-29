@@ -28,8 +28,10 @@ Simple Java CLI tool to organize files by extension.
 ```txt
 downloads-organizer/
 ├── src/
-├── README.md
-└── pom.xml
+│   ├── main/
+│   └── test/
+├── pom.xml
+└── README.md 
 ```
 
 ---
@@ -124,4 +126,23 @@ Example output:
 ```txt
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 ```
+## Help
 
+Show all available options:
+
+```bash id="p1w91f"
+java -jar ./target/downloads-organizer.jar --help
+```
+
+Output:
+
+```txt id="4xib5x"
+Downloads Organizer CLI
+
+Usage:
+  java -jar downloads-organizer.jar <directory> [options]
+
+Options:
+  --dry-run    Show what would be moved without changing files
+  --help       Show this help message
+```
