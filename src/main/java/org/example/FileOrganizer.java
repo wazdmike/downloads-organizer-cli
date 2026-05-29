@@ -3,7 +3,6 @@ package org.example;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 import static org.example.FileCategoryENUM.*;
@@ -25,16 +24,16 @@ public class FileOrganizer {
                 default -> OTHER;
             };
             Path targetFolder = file.getParent().resolve(category.getFolderName());
-            Path targetFile = targetFolder.resolve(file.getFileName());
+            Path targetFile = resolveDuplicate(targetFolder.resolve(file.getFileName()));
             if(dryRun){
                 System.out.println("[DRY RUN] " + file.getFileName() + " -> " + category.getFolderName());
             } else {
                 Files.createDirectories(targetFolder);
-                Files.move(file, targetFile, StandardCopyOption.REPLACE_EXISTING);
+                Files.move(file, targetFile);
                 System.out.println("[OK] " + file.getFileName() + " -> " + category.getFolderName());
             }
         } catch (IOException e){
-            System.out.println("[ERRO] " + file.getFileName());
+            System.out.println("[ERROR] " + file.getFileName());
         }
     }
 
@@ -52,7 +51,30 @@ public class FileOrganizer {
         try (Stream<Path> files = Files.list(sourceFolder)){
             files.filter(Files::isRegularFile).forEach(this::moveFile);
         } catch (IOException e){
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    private Path resolveDuplicate(Path targetFile){
+        if(!Files.exists(targetFile)){
+            return targetFile;
+        }
+        String filename = targetFile.getFileName().toString();
+        String name = filename;
+        String extension = "";
+        int dot = filename.lastIndexOf(".");
+        if(dot != -1){
+            name = filename.substring(0, dot);
+            extension = filename.substring(dot);
+        }
+        Path parent = targetFile.getParent();
+        int counter = 1;
+        Path newTarget;
+        do {
+            String newFileName = name + "-" + counter + extension;
+            newTarget = parent.resolve(newFileName);
+            counter++;
+        } while(Files.exists(newTarget));
+        return newTarget;
     }
 }
