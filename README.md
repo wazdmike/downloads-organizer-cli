@@ -35,7 +35,7 @@ downloads-organizer/
 
 ## Technologies
 
-* Java 21+
+* Java 21
 * Maven
 * Java NIO
 
@@ -46,13 +46,13 @@ downloads-organizer/
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/wazdmike/downloads-organizer-cli.git
 ```
 
 Build the project:
 
 ```bash
-mvn clean install
+mvn clean package
 ```
 
 Run the application passing the target directory.
@@ -60,14 +60,27 @@ Run the application passing the target directory.
 ### Linux
 
 ```bash
-java -jar organizer.jar ~/Downloads
+java -jar ./target/downloads-organizer-cli-1.0-SNAPSHOT.jar ~/Downloads
 ```
 
-### Windows
+### Linux with dry run
+
+```bash
+java -jar ./target/downloads-organizer-cli-1.0-SNAPSHOT.jar ~/Downloads --dry-run
+```
+
+### Windows PowerShell
 
 ```powershell
-java -jar organizer.jar "%USERPROFILE%\Downloads"
+java -jar .\target\downloads-organizer-cli-1.0-SNAPSHOT.jar "$env:USERPROFILE\Downloads"
 ```
+
+### Windows PowerShell with dry run
+
+```powershell
+java -jar .\target\downloads-organizer-cli-1.0-SNAPSHOT.jar "$env:USERPROFILE\Downloads" --dry-run
+```
+
 
 ---
 
