@@ -44,7 +44,7 @@ public class FileOrganizer {
         }
     }
 
-    private String getExtension(Path file){
+    public String getExtension(Path file){
         String name = file.getFileName().toString();
         int extension = name.lastIndexOf('.');
         if(extension == -1){
@@ -63,7 +63,7 @@ public class FileOrganizer {
         printSummary();
     }
 
-    private Path resolveDuplicate(Path targetFile){
+    public Path resolveDuplicate(Path targetFile){
         if(!Files.exists(targetFile)){
             return targetFile;
         }
