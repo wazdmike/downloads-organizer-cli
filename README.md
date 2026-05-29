@@ -35,7 +35,7 @@ downloads-organizer/
 
 ## Technologies
 
-* Java 21
+* Java 21+
 * Maven
 * Java NIO
 
