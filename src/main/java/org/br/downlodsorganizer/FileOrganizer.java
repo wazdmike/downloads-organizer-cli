@@ -9,18 +9,22 @@ public class FileOrganizer {
     private final FileClassifier classifier;
     private final boolean dryRun;
     private final OrganizerSummary summary;
+    private final FileExtensionExtractor extensionExtractor;
+    private final DuplicatedFileResolver duplicatedResolver;
 
     public FileOrganizer(boolean dryRun){
         this.dryRun = dryRun;
         this.classifier = new FileClassifier();
         this.summary = new OrganizerSummary();
+        this.extensionExtractor = new FileExtensionExtractor();
+        this.duplicatedResolver = new DuplicatedFileResolver();
     }
     private void moveFile(Path file){
         try{
-            String extension = getExtension(file);
+            String extension = extensionExtractor.extract(file);
             FileCategory category = classifier.classify(extension);
             Path targetFolder = file.getParent().resolve(category.getFolderName());
-            Path targetFile = resolveDuplicate(targetFolder.resolve(file.getFileName()));
+            Path targetFile = duplicatedResolver.resolve(targetFolder.resolve(file.getFileName()));
             if(dryRun){
                 summary.incrementSimulated();
                 System.out.println("[DRY RUN] " + file.getFileName() + " -> " + category.getFolderName());
@@ -34,15 +38,6 @@ public class FileOrganizer {
             summary.incrementError();
             System.out.println("[ERROR] " + file.getFileName() + " - " + e.getMessage());
         }
-    }
-
-    public String getExtension(Path file){
-        String name = file.getFileName().toString();
-        int extension = name.lastIndexOf('.');
-        if(extension == -1){
-            return "";
-        }
-        return name.substring(extension+1).toLowerCase();
     }
 
     public void organize(Path sourceFolder){
@@ -60,28 +55,5 @@ public class FileOrganizer {
             System.out.println("Error: " + e.getMessage());
         }
         summary.print(dryRun);
-    }
-
-    public Path resolveDuplicate(Path targetFile){
-        if(!Files.exists(targetFile)){
-            return targetFile;
-        }
-        String filename = targetFile.getFileName().toString();
-        String name = filename;
-        String extension = "";
-        int dot = filename.lastIndexOf(".");
-        if(dot != -1){
-            name = filename.substring(0, dot);
-            extension = filename.substring(dot);
-        }
-        Path parent = targetFile.getParent();
-        int counter = 1;
-        Path newTarget;
-        do {
-            String newFileName = name + "-" + counter + extension;
-            newTarget = parent.resolve(newFileName);
-            counter++;
-        } while(Files.exists(newTarget));
-        return newTarget;
     }
 }
