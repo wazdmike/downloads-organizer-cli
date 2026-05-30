@@ -5,24 +5,29 @@ import java.nio.file.Path;
 public class Main {
     public static void main(String[] args){
         boolean dryRun = false;
+        Path sourcePath = null;
 
-        if(args.length == 0){
+        for(String arg : args){
+            switch (arg){
+                case "--dry-run" -> dryRun = true;
+                case "--help" -> {
+                    showHelp();
+                    return;
+                }
+                default -> {
+                    if(!arg.startsWith("--")){
+                        sourcePath = Path.of(arg);
+                    }
+                }
+            }
+        }
+        if(sourcePath == null){
+            System.out.println("Error: source folder not provided");
             showHelp();
             return;
         }
-
-        for(String arg : args){
-            if(arg.equals("--help")){
-                showHelp();
-                return;
-            }
-            if(arg.equals("--dry-run")){
-                dryRun = true;
-            }
-        }
-        Path path = Path.of(args[0]);
         FileOrganizer organizer = new FileOrganizer(dryRun);
-        organizer.organize(path);
+        organizer.organize(sourcePath);
     }
 
     private static void showHelp(){
@@ -31,7 +36,7 @@ public class Main {
                 Downloads Organizer CLI
 
                 Usage:
-                  java -jar .\\target\\downloads-organizer.jar <directory> [options]
+                  java -jar .\\target\\downloads-organizer.jar [directory] [options]
 
                 Options:
                   --dry-run    Show what would be moved without changing files

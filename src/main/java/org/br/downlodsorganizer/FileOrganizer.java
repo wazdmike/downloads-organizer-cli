@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-import static org.br.downlodsorganizer.FileCategory.*;
-
 public class FileOrganizer {
     private final FileClassifier classifier;
     private final boolean dryRun;
