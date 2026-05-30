@@ -1,4 +1,4 @@
-package org.example;
+package org.br.downlodsorganizer;
 
 import java.nio.file.Path;
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.br.downlodsorganizer;
 
 import org.junit.Test;
 

@@ -1,11 +1,11 @@
-package org.example;
+package org.br.downlodsorganizer;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-import static org.example.FileCategoryENUM.*;
+import static org.br.downlodsorganizer.FileCategory.*;
 
 public class FileOrganizer {
     private final boolean dryRun;
@@ -19,7 +19,7 @@ public class FileOrganizer {
     private void moveFile(Path file){
         try{
             String extension = getExtension(file);
-            FileCategoryENUM category = switch(extension) {
+            FileCategory category = switch(extension) {
                 case "pdf" -> PDF;
                 case "png", "jpg", "jpeg", "gif", "webp" -> IMG;
                 case "zip", "rar", "7z" -> ZIP;
@@ -52,7 +52,6 @@ public class FileOrganizer {
         }
         return name.substring(extension+1).toLowerCase();
     }
-
 
     public void organize(Path sourceFolder){
         try (Stream<Path> files = Files.list(sourceFolder)){

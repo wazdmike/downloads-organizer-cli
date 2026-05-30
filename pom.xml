@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.Main</mainClass>
+                            <mainClass>org.br.downlodsorganizer.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

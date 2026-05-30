@@ -1,6 +1,6 @@
-package org.example;
+package org.br.downlodsorganizer;
 
-public enum FileCategoryENUM {
+public enum FileCategory {
 
     PDF("pdf"),
     IMG("img"),
@@ -11,7 +11,7 @@ public enum FileCategoryENUM {
 
     private final String folderName;
 
-    FileCategoryENUM(String folderName) {
+    FileCategory(String folderName) {
         this.folderName = folderName;
     }
 
