@@ -9,8 +9,8 @@ public class FileOrganizer {
     private final FileClassifier classifier;
     private final boolean dryRun;
     private final OrganizerSummary summary;
-    private final FileExtensionExtractor extensionExtractor;
-    private final DuplicatedFileResolver duplicatedResolver;
+    final FileExtensionExtractor extensionExtractor;
+    final DuplicatedFileResolver duplicatedResolver;
 
     public FileOrganizer(boolean dryRun){
         this.dryRun = dryRun;

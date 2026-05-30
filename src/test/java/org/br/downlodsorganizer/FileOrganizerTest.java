@@ -14,7 +14,7 @@ public class FileOrganizerTest {
     @Test
     public void shouldReturnPdfExtension(){
         Path file = Path.of("document.pdf");
-        String extension = organizer.getExtension(file);
+        String extension = organizer.extensionExtractor.extract(file);
 
         assertEquals("pdf", extension);
     }
@@ -22,7 +22,7 @@ public class FileOrganizerTest {
     @Test
     public void shouldReturnEmptyExtension(){
         Path file = Path.of("document");
-        String extension = organizer.getExtension(file);
+        String extension = organizer.extensionExtractor.extract(file);
 
         assertEquals("", extension);
     }
@@ -33,7 +33,7 @@ public class FileOrganizerTest {
         Path tempDir = Files.createTempDirectory("organizer-temp");
         Path existingFile = tempDir.resolve("photo.png");
         Files.createFile(existingFile);
-        Path resolvedPath = organizer.resolveDuplicate(existingFile);
+        Path resolvedPath = organizer.duplicatedResolver.resolve(existingFile);
         assertEquals("photo-1.png", resolvedPath.getFileName().toString());
     }
 
