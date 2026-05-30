@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import static org.br.downlodsorganizer.FileCategory.*;
 
 public class FileOrganizer {
+    private final FileClassifier classifier;
     private final boolean dryRun;
     private int movedCount;
     private int simulatedCount;
@@ -15,18 +16,12 @@ public class FileOrganizer {
 
     public FileOrganizer(boolean dryRun){
         this.dryRun = dryRun;
+        this.classifier = new FileClassifier();
     }
     private void moveFile(Path file){
         try{
             String extension = getExtension(file);
-            FileCategory category = switch(extension) {
-                case "pdf" -> PDF;
-                case "png", "jpg", "jpeg", "gif", "webp" -> IMG;
-                case "zip", "rar", "7z" -> ZIP;
-                case "txt", "doc", "docx", "md" -> DOC;
-                case "java", "c", "py", "js", "ts", "html", "css", "json" -> CODE;
-                default -> OTHER;
-            };
+            FileCategory category = classifier.classify(extension);
             Path targetFolder = file.getParent().resolve(category.getFolderName());
             Path targetFile = resolveDuplicate(targetFolder.resolve(file.getFileName()));
             if(dryRun){
