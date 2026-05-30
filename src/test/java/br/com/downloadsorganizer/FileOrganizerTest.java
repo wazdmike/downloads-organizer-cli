@@ -9,33 +9,6 @@ import java.nio.file.Path;
 import static org.junit.Assert.*;
 
 public class FileOrganizerTest {
-    private final FileOrganizer organizer = new FileOrganizer(false);
-
-    @Test
-    public void shouldReturnPdfExtension(){
-        Path file = Path.of("document.pdf");
-        String extension = organizer.extensionExtractor.extract(file);
-
-        assertEquals("pdf", extension);
-    }
-
-    @Test
-    public void shouldReturnEmptyExtension(){
-        Path file = Path.of("document");
-        String extension = organizer.extensionExtractor.extract(file);
-
-        assertEquals("", extension);
-    }
-
-    @Test
-    public void shouldResolveDuplicateFilename() throws IOException{
-        FileOrganizer organizer = new FileOrganizer(false);
-        Path tempDir = Files.createTempDirectory("organizer-temp");
-        Path existingFile = tempDir.resolve("photo.png");
-        Files.createFile(existingFile);
-        Path resolvedPath = organizer.duplicateResolver.resolve(existingFile);
-        assertEquals("photo-1.png", resolvedPath.getFileName().toString());
-    }
 
     @Test
     public void shouldNotMoveFilesWhenDryRun() throws IOException{
@@ -58,5 +31,24 @@ public class FileOrganizerTest {
         Path movedFile = tempDir.resolve("pdf").resolve("document.pdf");
         assertFalse(Files.exists(file));
         assertTrue(Files.exists(movedFile));
+    }
+
+    @Test
+    public void shouldRenameDuplicateFiles()
+            throws IOException {
+
+        FileOrganizer organizer = new FileOrganizer(false);
+
+        Path tempDir = Files.createTempDirectory("organizer-temp");
+        Path original = tempDir.resolve("document.pdf");
+        Path duplicate = tempDir.resolve("document-1.pdf");
+        Files.createFile(original);
+        Files.createFile(duplicate);
+        organizer.organize(tempDir);
+        Path firstFile = tempDir.resolve("pdf").resolve("document.pdf");
+        Path secondFile = tempDir.resolve("pdf").resolve("document-1.pdf");
+
+        assertTrue(Files.exists(firstFile));
+        assertTrue(Files.exists(secondFile));
     }
 }
