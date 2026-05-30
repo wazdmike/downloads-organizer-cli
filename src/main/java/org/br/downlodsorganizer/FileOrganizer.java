@@ -8,13 +8,12 @@ import java.util.stream.Stream;
 public class FileOrganizer {
     private final FileClassifier classifier;
     private final boolean dryRun;
-    private int movedCount;
-    private int simulatedCount;
-    private int errorCount;
+    private final OrganizerSummary summary;
 
     public FileOrganizer(boolean dryRun){
         this.dryRun = dryRun;
         this.classifier = new FileClassifier();
+        this.summary = new OrganizerSummary();
     }
     private void moveFile(Path file){
         try{
@@ -23,16 +22,16 @@ public class FileOrganizer {
             Path targetFolder = file.getParent().resolve(category.getFolderName());
             Path targetFile = resolveDuplicate(targetFolder.resolve(file.getFileName()));
             if(dryRun){
-                simulatedCount++;
+                summary.incrementSimulated();
                 System.out.println("[DRY RUN] " + file.getFileName() + " -> " + category.getFolderName());
             } else {
                 Files.createDirectories(targetFolder);
                 Files.move(file, targetFile);
-                movedCount++;
+                summary.incrementMoved();
                 System.out.println("[OK] " + file.getFileName() + " -> " + category.getFolderName());
             }
         } catch (IOException e){
-            errorCount++;
+            summary.incrementError();
             System.out.println("[ERROR] " + file.getFileName() + " - " + e.getMessage());
         }
     }
@@ -60,7 +59,7 @@ public class FileOrganizer {
         } catch (IOException e){
             System.out.println("Error: " + e.getMessage());
         }
-        printSummary();
+        summary.print(dryRun);
     }
 
     public Path resolveDuplicate(Path targetFile){
@@ -84,14 +83,5 @@ public class FileOrganizer {
             counter++;
         } while(Files.exists(newTarget));
         return newTarget;
-    }
-
-    private void printSummary(){
-        System.out.println();
-        System.out.println("Summary:");
-        System.out.println("Moved: " + movedCount);
-        System.out.println("Simulated: " + simulatedCount);
-        System.out.println("Errors: " + errorCount);
-        System.out.println("Dry run: " + dryRun);
     }
 }
