@@ -1,9 +1,9 @@
-package org.br.downlodsorganizer;
+package br.com.downloadsorganizer;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DuplicatedFileResolver {
+public class DuplicateFileResolver {
     public Path resolve(Path targetFile){
         if (!Files.exists(targetFile)) return targetFile;
 

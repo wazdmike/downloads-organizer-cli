@@ -1,4 +1,4 @@
-package org.br.downlodsorganizer;
+package br.com.downloadsorganizer;
 
 import java.nio.file.Path;
 

@@ -1,4 +1,4 @@
-package org.br.downlodsorganizer;
+package br.com.downloadsorganizer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,21 +10,21 @@ public class FileOrganizer {
     private final boolean dryRun;
     private final OrganizerSummary summary;
     final FileExtensionExtractor extensionExtractor;
-    final DuplicatedFileResolver duplicatedResolver;
+    final DuplicateFileResolver duplicateResolver;
 
     public FileOrganizer(boolean dryRun){
         this.dryRun = dryRun;
         this.classifier = new FileClassifier();
         this.summary = new OrganizerSummary();
         this.extensionExtractor = new FileExtensionExtractor();
-        this.duplicatedResolver = new DuplicatedFileResolver();
+        this.duplicateResolver = new DuplicateFileResolver();
     }
     private void moveFile(Path file){
         try{
             String extension = extensionExtractor.extract(file);
             FileCategory category = classifier.classify(extension);
             Path targetFolder = file.getParent().resolve(category.getFolderName());
-            Path targetFile = duplicatedResolver.resolve(targetFolder.resolve(file.getFileName()));
+            Path targetFile = duplicateResolver.resolve(targetFolder.resolve(file.getFileName()));
             if(dryRun){
                 summary.incrementSimulated();
                 System.out.println("[DRY RUN] " + file.getFileName() + " -> " + category.getFolderName());

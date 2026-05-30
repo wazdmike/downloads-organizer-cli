@@ -1,9 +1,9 @@
-package org.br.downlodsorganizer;
+package br.com.downloadsorganizer;
 
-import static org.br.downlodsorganizer.FileCategory.*;
-import static org.br.downlodsorganizer.FileCategory.CODE;
-import static org.br.downlodsorganizer.FileCategory.DOC;
-import static org.br.downlodsorganizer.FileCategory.OTHER;
+import static br.com.downloadsorganizer.FileCategory.*;
+import static br.com.downloadsorganizer.FileCategory.CODE;
+import static br.com.downloadsorganizer.FileCategory.DOC;
+import static br.com.downloadsorganizer.FileCategory.OTHER;
 
 public class FileClassifier {
     public FileCategory classify(String extension){

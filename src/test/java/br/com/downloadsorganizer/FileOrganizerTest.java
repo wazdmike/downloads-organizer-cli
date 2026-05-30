@@ -1,4 +1,4 @@
-package org.br.downlodsorganizer;
+package br.com.downloadsorganizer;
 
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class FileOrganizerTest {
         Path tempDir = Files.createTempDirectory("organizer-temp");
         Path existingFile = tempDir.resolve("photo.png");
         Files.createFile(existingFile);
-        Path resolvedPath = organizer.duplicatedResolver.resolve(existingFile);
+        Path resolvedPath = organizer.duplicateResolver.resolve(existingFile);
         assertEquals("photo-1.png", resolvedPath.getFileName().toString());
     }
 
