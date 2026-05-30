@@ -13,26 +13,35 @@ Simple Java CLI tool to organize files by extension.
 
 ## Current Categories
 
-| Folder | Extensions                                                  |
-| ------ | ----------------------------------------------------------- |
-| pdf    | `.pdf`                                                      |
-| img    | `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`                    |
-| zip    | `.zip`, `.rar`, `.7z`                                       |
-| doc    | `.txt`, `.doc`, `.docx`, `.md`                              |
-| code   | `.java`, `.c`, `.py` `.js`, `.ts`, `.html`, `.css`, `.json` |
-| other  | unknown extensions                                          |
+| Folder | Extensions                                                   |
+| ------ |--------------------------------------------------------------|
+| pdf    | `.pdf`                                                       |
+| img    | `.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`                     |
+| zip    | `.zip`, `.rar`, `.7z`                                        |
+| doc    | `.txt`, `.doc`, `.docx`, `.md`                               |
+| code   | `.java`, `.c`, `.py`, `.js`, `.ts`, `.html`, `.css`, `.json` |
+| other  | unknown extensions                                           |
 
 ---
 
 ## Project Structure
 
 ```txt
-downloads-organizer/
-├── src/
-│   ├── main/
-│   └── test/
-├── pom.xml
-└── README.md 
+src/
+├── main/java/br/com/downloadsorganizer/
+│   ├── DuplicateFileResolver.java
+│   ├── FileCategory.java
+│   ├── FileClassifier.java
+│   ├── FileExtensionExtractor.java
+│   ├── FileOrganizer.java
+│   ├── Main.java
+│   └── OrganizerSummary.java
+│
+├── test/java/br/com/downloadsorganizer/
+│   ├── DuplicateFileResolverTest.java
+│   ├── FileClassifierTest.java
+│   ├── FileExtensionExtractorTest.java
+│   └── FileOrganizerTest.java 
 ```
 
 ---
@@ -64,25 +73,25 @@ Run the application passing the target directory.
 ### Linux
 
 ```bash
-java -jar ./target/downloads-organizer-cli-1.0-SNAPSHOT.jar ~/Downloads
+java -jar ./target/downloads-organizer.jar ~/Downloads
 ```
 
 ### Linux with dry run
 
 ```bash
-java -jar ./target/downloads-organizer-cli-1.0-SNAPSHOT.jar ~/Downloads --dry-run
+java -jar ./target/downloads-organizer.jar ~/Downloads --dry-run
 ```
 
 ### Windows PowerShell
 
 ```powershell
-java -jar .\target\downloads-organizer-cli-1.0-SNAPSHOT.jar "$env:USERPROFILE\Downloads"
+java -jar .\target\downloads-organizer.jar "$env:USERPROFILE\Downloads"
 ```
 
 ### Windows PowerShell with dry run
 
 ```powershell
-java -jar .\target\downloads-organizer-cli-1.0-SNAPSHOT.jar "$env:USERPROFILE\Downloads" --dry-run
+java -jar .\targe\tdownloads-organizer.jar "$env:USERPROFILE\Downloads" --dry-run
 ```
 
 
