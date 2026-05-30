@@ -33,7 +33,7 @@ public class FileOrganizer {
             }
         } catch (IOException e){
             errorCount++;
-            System.out.println("[ERROR] " + file.getFileName());
+            System.out.println("[ERROR] " + file.getFileName() + " - " + e.getMessage());
         }
     }
 
@@ -47,6 +47,14 @@ public class FileOrganizer {
     }
 
     public void organize(Path sourceFolder){
+        if (!Files.exists(sourceFolder)){
+            System.out.println("Error: source folder doesn't exist: " + sourceFolder);
+            return;
+        }
+        if (!Files.isDirectory(sourceFolder)){
+            System.out.println("Error: source folder is not a directory: " + sourceFolder);
+            return;
+        }
         try (Stream<Path> files = Files.list(sourceFolder)){
             files.filter(Files::isRegularFile).forEach(this::moveFile);
         } catch (IOException e){
