@@ -1,3 +1,4 @@
+![Java CI](https://github.com/wazdmike/downloads-organizer-cli/actions/workflows/maven.yml/badge.svg)
 # Downloads Organizer CLI
 
 Simple Java CLI tool to organize files by extension.
